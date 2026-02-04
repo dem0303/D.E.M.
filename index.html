@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valentine Night Sky</title>
+  <style>
+    body {
+      text-align: center;
+      background: linear-gradient(to top, #0d0d2b, #1a1a4d);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      overflow: hidden;
+      padding: 20px;
+      position: relative;
+      color: white;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #ff4da6;
+      z-index: 1;
+    }
+
+    h2 {
+      font-size: 2em;
+      color: #ff80bf;
+      margin-bottom: 40px;
+      z-index: 1;
+    }
+
+    p {
+      font-size: 1.5em;
+      color: #ff80bf;
+      margin-top: 20px;
+      line-height: 1.6;
+      max-width: 600px;
+      z-index: 1;
+      position: relative;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 20px;
+      z-index: 1;
+      margin-top: 30px;
+    }
+
+    button {
+      font-size: 24px;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    }
+
+    #yes {
+      background: #ff4da6;
+      color: white;
+    }
+
+    #yes:hover {
+      transform: scale(1.1);
+      background: #ff1a75;
+    }
+
+    #no {
+      background: #fff;
+      color: #ff1a75;
+      position: relative;
+    }
+
+    #no:hover {
+      transform: scale(1.1);
+    }
+
+    /* Stars */
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 2s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+
+    /* Shooting stars reversed */
+    .shooting-star {
+      position: absolute;
+      width: 2px;
+      height: 80px;
+      background: linear-gradient(225deg, rgba(255,255,255,1), rgba(255,255,255,0));
+      border-radius: 50%;
+      opacity: 0;
+      transform: rotate(225deg);
+      animation-name: shoot-reverse;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes shoot-reverse {
+      0% { opacity: 1; transform: translate(0,0) rotate(225deg); }
+      100% { opacity: 0; transform: translate(-100vw, 100vh) rotate(225deg); }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <h1>Andisiwe 🙃</h1>
+  <h2>Can you be my Valentine? 💖</h2>
+
+  <div class="button-container">
+    <button id="yes" onclick="yes()">Yes ❤️</button>
+    <button id="no" onclick="move()">No 💔</button>
+  </div>
+
+  <script>
+    // Dodging No button
+    function move() {
+      let noButton = document.getElementById("no");
+      let x = Math.random() * (window.innerWidth - noButton.offsetWidth - 20);
+      let y = Math.random() * (window.innerHeight - noButton.offsetHeight - 20);
+      noButton.style.position = 'absolute';
+      noButton.style.left = x + "px";
+      noButton.style.top = y + "px";
+    }
+    document.getElementById("no").addEventListener("mouseover", move);
+
+    // When Yes is clicked
+    function yes() {
+      document.body.innerHTML = `
+        <h1>YAY!!! 🥰</h1>
+        <p>
+          Just wanted to let you know how much I’m looking forward to Valentine’s Day.<br>
+          Having an amazing lady like you by my side means the world to me.<br>
+          I’m honestly so glad you said yes—I’m a very happy man right now! 💕
+        </p>
+      `;
+      createStars();
+      startShootingStars();
+    }
+
+    // Create twinkling stars
+    function createStars() {
+      for (let i = 0; i < 100; i++) {
+        let star = document.createElement("div");
+        star.className = "star";
+        star.style.left = Math.random() * window.innerWidth + "px";
+        star.style.top = Math.random() * window.innerHeight + "px";
+        star.style.width = 1 + Math.random() * 2 + "px";
+        star.style.height = 1 + Math.random() * 2 + "px";
+        document.body.appendChild(star);
+      }
+    }
+
+    // Continuously generate shooting stars (reversed)
+    function startShootingStars() {
+      setInterval(() => {
+        let star = document.createElement("div");
+        star.className = "shooting-star";
+        star.style.left = window.innerWidth / 2 + Math.random() * window.innerWidth / 2 + "px";
+        star.style.top = Math.random() * window.innerHeight / 2 + "px";
+        star.style.height = 50 + Math.random() * 80 + "px";
+        star.style.animationDuration = 1 + Math.random() * 1.5 + "s";
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 3000);
+      }, 500);
+    }
+
+    // Initialize stars and shooting stars
+    createStars();
+    startShootingStars();
+  </script>
+
+</body>
+</html>
